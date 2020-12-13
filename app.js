@@ -12,7 +12,8 @@ const app = express();
 
 //Connexion à la BD
 mongoose.connect(
-    "mongodb://user:user@mongo/MEAN"
+    //"mongodb://user:user@mongo/Painting"
+    "mongodb://user:user@172.18.0.3/Painting"
     , { useNewUrlParser: true, useUnifiedTopology: true })
 .then(() => {
     console.log("BDD Connectée");
