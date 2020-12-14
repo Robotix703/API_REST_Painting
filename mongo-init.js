@@ -12,13 +12,13 @@ db.createUser(
 );
 
 //Création / Connexion Painting
-db = db.getSiblingDB('MEAN');
+db = db.getSiblingDB('Painting');
 db.createUser(
   {
     user: "user",
     pwd: "user",
     customData: {  },
-    roles: [{ role: "readWrite", db: "MEAN" }]
+    roles: [{ role: "readWrite", db: "Painting" }]
   }
 )
 
