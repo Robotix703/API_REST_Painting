@@ -4,7 +4,7 @@ const mongoose = require('mongoose');
 const path = require('path')
 
 //Ajout des routes
-const postsRoute = require('./routes/posts');
+const figurinesRoutes = require('./routes/figurines');
 const userRoutes = require("./routes/user");
 
 //Création de l'application
@@ -42,8 +42,8 @@ app.use((req, res, next) => {
     next();
 });
 
-//Utilisation de la route Posts
-app.use("/api/posts", postsRoute);
+//Utilisation de la route Figurines
+app.use("/api/figurines", figurinesRoutes);
 
 //Utilisation de la route Posts
 app.use("/api/user", userRoutes);
