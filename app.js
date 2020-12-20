@@ -13,13 +13,13 @@ const app = express();
 //Connexion à la BD
 mongoose.connect(
     //"mongodb://user:user@mongo/Painting"
-    "mongodb://user:user@172.18.0.2/Painting"
+    "mongodb://user:user@172.18.0.3/Painting"
     , { useNewUrlParser: true, useUnifiedTopology: true })
 .then(() => {
     console.log("BDD Connectée");
 }).catch(() => {
     console.log("Erreur de connexion");
-})
+});
 
 //Initialisation de body-parser
 app.use(bodyParser.json());
