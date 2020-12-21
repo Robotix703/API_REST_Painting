@@ -4,7 +4,7 @@ const mongoose = require('mongoose');
 const path = require('path')
 
 //Ajout des routes
-const postsRoute = require('./routes/posts');
+const figurinesRoutes = require('./routes/figurines');
 const userRoutes = require("./routes/user");
 
 //Création de l'application
@@ -13,20 +13,20 @@ const app = express();
 //Connexion à la BD
 mongoose.connect(
     //"mongodb://user:user@mongo/Painting"
-    "mongodb://user:user@172.18.0.2/Painting"
+    "mongodb://user:user@172.18.0.3/Painting"
     , { useNewUrlParser: true, useUnifiedTopology: true })
 .then(() => {
     console.log("BDD Connectée");
 }).catch(() => {
     console.log("Erreur de connexion");
-})
+});
 
 //Initialisation de body-parser
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
 //Autorisation accès dossiers
-app.use("/images", express.static(path.join("backend/images")));    //Images
+app.use("/images", express.static(path.join("images")));    //Images
 
 //gestion du comflit CORS
 app.use((req, res, next) => {
@@ -42,8 +42,8 @@ app.use((req, res, next) => {
     next();
 });
 
-//Utilisation de la route Posts
-app.use("/api/posts", postsRoute);
+//Utilisation de la route Figurines
+app.use("/api/figurines", figurinesRoutes);
 
 //Utilisation de la route Posts
 app.use("/api/user", userRoutes);
