@@ -26,7 +26,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
 //Autorisation accès dossiers
-app.use("/images", express.static(path.join("backend/images")));    //Images
+app.use("/images", express.static(path.join("images")));    //Images
 
 //gestion du comflit CORS
 app.use((req, res, next) => {
