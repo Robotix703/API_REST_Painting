@@ -10,14 +10,14 @@ const FigurinesController = require("../controllers/figurines");
 const router = express.Router();
 
 //Gestion des écriture de posts
-//router.post('', checkAuth, extractFile, PostsController.writePost);
+router.post('', checkAuth, extractFile, FigurinesController.writeFigurine);
 
 //Gestion de la récupération des figurines
 router.get('/', FigurinesController.getFigurines);
 //Gestion de la récuération d'une figurine
 router.get('/:id', FigurinesController.getFigurine);
 
-//router.put("/:id", checkAuth, extractFile, PostsController.updatePost)
+//router.put("/:id", checkAuth, extractFile, FigurinesController.updatePost)
 
 //Gestion de la suppression des figurines
 router.delete("/:id", checkAuth, FigurinesController.deleteFigurine);
