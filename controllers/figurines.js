@@ -1,5 +1,31 @@
 const Figurine = require('./../models/figurine');
 
+//Enregistrement d'une figurine
+exports.writeFigurine = (req, res, next) => {
+  //URL du serveur
+  const url = req.protocol + '://' + req.get("host");
+
+  //Construction d'une figurine
+  const figurine = new Figurine({
+    name: req.body.name,
+    categorie: req.body.categorie,
+    imagePath: url + "/images/" + req.file.filename,
+    creator: req.userData.userId
+  });
+
+  //Sauvegarde dans la BDD
+  figurine.save()
+    .then(result => {
+      //Renvoi d'une réponse
+      res.status(201).json({ id: result._id, figurine });
+    })
+    .catch(error => {
+      res.status(500).json({
+        message: "La création à échoué"
+      })
+    });
+};
+
 //Récupération des figuines
 exports.getFigurines = (req, res, next) => {
 
