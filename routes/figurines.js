@@ -16,9 +16,8 @@ router.post('', checkAuth, extractFile, FigurinesController.writeFigurine);
 router.get('/', FigurinesController.getFigurines);
 //Gestion de la récuération d'une figurine
 router.get('/:id', FigurinesController.getFigurine);
-
-//router.put("/:id", checkAuth, extractFile, FigurinesController.updatePost)
-
+//Gestion de la MAJ d'une figurine
+router.put("/:id", checkAuth, extractFile, FigurinesController.updateFigurine);
 //Gestion de la suppression des figurines
 router.delete("/:id", checkAuth, FigurinesController.deleteFigurine);
 
