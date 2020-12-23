@@ -12,6 +12,6 @@ const router = express.Router();
 router.get('/', PaintControllers.getInstructions);
 
 //Gestion de l'écriture d'une instruction
-router.post('/', PaintControllers.writeInstruction);
+router.post('/', checkAuth, PaintControllers.writeInstruction);
 
 module.exports = router;
