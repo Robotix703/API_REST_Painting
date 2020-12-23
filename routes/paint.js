@@ -11,4 +11,7 @@ const router = express.Router();
 //Gestion de la récupération des instructions
 router.get('/', PaintControllers.getInstructions);
 
+//Gestion de l'écriture d'une instruction
+router.post('/', PaintControllers.writeInstruction);
+
 module.exports = router;
