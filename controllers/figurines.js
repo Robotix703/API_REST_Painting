@@ -80,6 +80,41 @@ exports.getFigurine = (req, res, next) => {
     });
 };
 
+//MAJ d'une figurine
+exports.updateFigurine = (req, res, next) => {
+
+  let imagePath = req.body.imagePath;
+  //Vérification présence image
+  if (req.file) {
+    //URL du serveur
+    const url = req.protocol + '://' + req.get("host");
+    imagePath = url + "/images/" + req.file.filename
+  }
+
+  const figurine = new Figurine({
+    _id: req.params.id,
+    name: req.body.name,
+    categorie: req.body.categorie,
+    imagePath: imagePath,
+    creator: req.userData.userId
+  })
+
+  //MAJ d'un élément avec Mangoose
+  Figurine.updateOne({ _id: req.params.id, creator: req.userData.userId }, figurine)
+    .then(result => {
+      if (result.n > 0) {
+        res.status(200).json(figurine);
+      } else {
+        res.status(401).json({ message: "Pas d'autorisation" });
+      }
+    })
+    .catch(error => {
+      res.status(500).json({
+        message: "La Mise à jour à échoué"
+      })
+    });
+};
+
 //Suppression d'une figurine
 exports.deleteFigurine = (req, res, next) => {
 
