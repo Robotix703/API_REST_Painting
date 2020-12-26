@@ -28,6 +28,54 @@ exports.getInstructions = (req, res, next) => {
     });
 };
 
+//Récupération d'une instruction
+exports.getInstruction = (req, res, next) => {
+  //Recherche d'un élément particulier
+  Instruction.findById(req.params.id)
+    .then(instruction => {
+      if (instruction) {
+        res.status(200).json(instruction);
+      } else {
+        res.status(404).json({ message: "Mauvais ID" });
+      }
+    })
+    .catch(error => {
+      res.status(500).json({
+        message: "La récupération à échoué"
+      })
+    });
+};
+
+//MAJ d'une instruction
+exports.updateInstruction = (req, res, next) => {
+
+  const instruction = new Instruction({
+    _id: req.params.id,
+    name: req.body.name,
+    content: req.body.content,
+    figurineID: req.body.figurineID,
+    paintID: req.body.paintID
+  });
+
+  //MAJ d'un élément avec Mangoose
+  Instruction.updateOne({ _id: req.params.id }, instruction)
+    .then(result => {
+      if (result.n > 0) {
+        res.status(200).json(instruction);
+        return
+      } else {
+        res.status(401).json({ message: "Pas d'autorisation" });
+        return
+      }
+    })
+    .catch(error => {
+      res.status(500).json({
+        message: "La Mise à jour à échoué"
+      })
+      return
+    });
+};
+
 exports.writeInstruction = (req, res, next) => {
 
   //Construction d'une instruction
