@@ -14,4 +14,7 @@ router.get('/', PaintControllers.getInstructions);
 //Gestion de l'écriture d'une instruction
 router.post('/', checkAuth, PaintControllers.writeInstruction);
 
+//Gestion de la suppression des instructions
+router.delete("/:id", checkAuth, PaintControllers.deleteInstruction);
+
 module.exports = router;
