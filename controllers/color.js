@@ -46,3 +46,22 @@ exports.getColors = (req, res, next) => {
       })
     });
 };
+
+//Suppression d'une couleur
+exports.deleteColor = (req, res, next) => {
+
+  //Demande à la BDD
+  Color.deleteOne({ _id: req.params.id })
+    .then((result) => {
+      if (result.n > 0) {
+        res.status(200).json(result);
+      } else {
+        res.status(401).json(result);
+      }
+    })
+    .catch(error => {
+      res.status(500).json({
+        message: "La suppression à échoué"
+      })
+    });
+};
