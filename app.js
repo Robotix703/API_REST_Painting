@@ -7,6 +7,7 @@ const path = require('path')
 const figurinesRoutes = require('./routes/figurines');
 const userRoutes = require("./routes/user");
 const paintRoutes = require("./routes/paint");
+const colorRoutes = require("./routes/color");
 
 //Création de l'application
 const app = express();
@@ -51,6 +52,9 @@ app.use("/api/user", userRoutes);
 
 //Utilisation de la route Instructions
 app.use("/api/paint", paintRoutes);
+
+//Utilisation de la route Color
+app.use("/api/color", colorRoutes);
 
 //Export de l'application
 module.exports = app;
