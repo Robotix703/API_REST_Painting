@@ -21,3 +21,28 @@ exports.writeColor = (req, res, next) => {
       })
     });
 }
+
+//Récupération des couleurs
+exports.getColors = (req, res, next) => {
+
+  let fetchedColors;
+
+  //Récupération de tout les éléments
+  const colorQuery = Color.find();
+
+  //Récupérations de données
+  colorQuery
+    .then(documents => {
+      fetchedColors = [...documents];
+      return documents.length;
+    })
+    .then(count => {
+      //Réponse
+      res.status(200).json({ Colors: fetchedColors, maxColors: count });
+    })
+    .catch(error => {
+      res.status(500).json({
+        message: "La récupération à échoué"
+      })
+    });
+};
