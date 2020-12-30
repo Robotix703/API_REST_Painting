@@ -82,7 +82,7 @@ exports.writeInstruction = (req, res, next) => {
   const instruction = new Instruction({
     name: req.body.name,
     content: req.body.content,
-    paintID: "teststs",
+    paintID: req.body.paintID,
     figurineID: req.body.figurineID
   });
 
