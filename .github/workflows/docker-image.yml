@@ -31,9 +31,17 @@ jobs:
         password: ${{ secrets.DOCKERHUB_TOKEN }}
 
     # Construction du docker
-    - name: Build and push
-      id: docker_build
+    - name: Build and push latest
+      id: docker_build_1
       uses: docker/build-push-action@v2
       with:
         push: true
         tags: robotix703/api_rest_painting:latest
+
+    # Construction du docker
+    - name: Build and push tag
+      id: docker_build_2
+      uses: docker/build-push-action@v2
+      with:
+        push: true
+        tags: robotix703/api_rest_painting:1.${{ github.run_number }}

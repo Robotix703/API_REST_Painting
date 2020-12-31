@@ -27,3 +27,6 @@ db.createUser(
     roles: [{ role: "readWrite", db: "MEAN" }]
   }
 )
+
+## Création du docker
+docker run --name api_rest_painting -p 3000:3000 --network=robotix703_default robotix703/api_rest_painting:latest &
