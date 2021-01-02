@@ -6,7 +6,9 @@ exports.writeColor = (req, res, next) => {
   //Construction d'une couleur
   const color = new Color({
     name: req.body.name,
-    gamme: req.body.gamme
+    gamme: req.body.gamme,
+    type: req.body.type,
+    colorCode: req.body.colorCode
   });
 
   //Sauvegarde dans la BDD
