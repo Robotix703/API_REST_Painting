@@ -9,8 +9,7 @@ exports.writeFigurine = (req, res, next) => {
   const figurine = new Figurine({
     name: req.body.name,
     categorie: req.body.categorie,
-    imagePath: url + "/images/" + req.file.filename,
-    creator: req.userData.userId
+    imagePath: url + "/images/" + req.file.filename
   });
 
   //Sauvegarde dans la BDD
@@ -95,12 +94,11 @@ exports.updateFigurine = (req, res, next) => {
     _id: req.params.id,
     name: req.body.name,
     categorie: req.body.categorie,
-    imagePath: imagePath,
-    creator: req.userData.userId
+    imagePath: imagePath
   })
 
   //MAJ d'un élément avec Mangoose
-  Figurine.updateOne({ _id: req.params.id, creator: req.userData.userId }, figurine)
+  Figurine.updateOne({ _id: req.params.id }, figurine)
     .then(result => {
       if (result.n > 0) {
         res.status(200).json(figurine);
@@ -119,7 +117,7 @@ exports.updateFigurine = (req, res, next) => {
 exports.deleteFigurine = (req, res, next) => {
 
   //Demande à la BDD
-  Figurine.deleteOne({ _id: req.params.id, creator: req.userData.userId })
+  Figurine.deleteOne({ _id: req.params.id })
     .then((result) => {
       if (result.n > 0) {
         res.status(200).json(result);
