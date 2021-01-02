@@ -29,4 +29,4 @@ db.createUser(
 )
 
 ## Création du docker
-docker run --name api_rest_painting -p 3000:3000 --network=robotix703_default robotix703/api_rest_painting:latest &
+docker run --name api_rest_painting -p 3000:3000 --network=robotix703_default -v API_REST_Painting_images:/usr/src/app/images robotix703/api_rest_painting:latest &
