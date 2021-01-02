@@ -54,7 +54,8 @@ exports.updateInstruction = (req, res, next) => {
     name: req.body.name,
     content: req.body.content,
     figurineID: req.body.figurineID,
-    paintID: req.body.paintID
+    paintID: req.body.paintID,
+    step: req.body.step
   });
 
   //MAJ d'un élément avec Mangoose
@@ -83,7 +84,8 @@ exports.writeInstruction = (req, res, next) => {
     name: req.body.name,
     content: req.body.content,
     paintID: req.body.paintID,
-    figurineID: req.body.figurineID
+    figurineID: req.body.figurineID,
+    step: req.body.step
   });
 
   //Sauvegarde dans la BDD
