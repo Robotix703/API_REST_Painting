@@ -60,6 +60,34 @@ exports.getColorsFiltre = (req, res, next) => {
     });
 };
 
+//Récupération des couleurs via nom
+exports.getColorsNom = (req, res, next) => {
+
+  //Récupération du nom passé en paramètre
+  const name = req.query.nom;
+
+  //Query
+  const colorQuery = Color.find({ 'name': { "$regex": name, "$options": "i" } });
+
+  let fetchedColors;
+
+  //Récupérations de données
+  colorQuery
+    .then(documents => {
+      fetchedColors = [...documents];
+      return documents.length;
+    })
+    .then(count => {
+      //Réponse
+      res.status(200).json({ Colors: fetchedColors, maxColors: count });
+    })
+    .catch(error => {
+      res.status(500).json({
+        message: "La récupération à échoué"
+      })
+    });
+};
+
 //Récupération des couleurs
 exports.getColors = (req, res, next) => {
 

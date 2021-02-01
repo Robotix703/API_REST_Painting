@@ -14,6 +14,9 @@ router.get('/', ColorControllers.getColors);
 //Gestion de la récupération des couleurs avec filtres
 router.get('/filtre', ColorControllers.getColorsFiltre);
 
+//Gestion de la récupération des couleurs via un nom
+router.get('/nom', ColorControllers.getColorsNom);
+
 //Gestion de l'écriture d'une couleur
 router.post('/', checkAuth, ColorControllers.writeColor);
 
