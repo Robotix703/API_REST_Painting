@@ -1,6 +1,6 @@
 const Instruction = require('./../models/instruction');
 
-//Récupération des instructions
+//Récupération des instructions avec figurine ID
 exports.getInstructions = (req, res, next) => {
 
   //Récupération des éléments de pagination

@@ -11,6 +11,9 @@ const router = express.Router();
 //Gestion de la récupération des couleurs
 router.get('/', ColorControllers.getColors);
 
+//Gestion de la récupération des couleurs avec filtres
+router.get('/filtre', ColorControllers.getColorsFiltre);
+
 //Gestion de l'écriture d'une couleur
 router.post('/', checkAuth, ColorControllers.writeColor);
 
