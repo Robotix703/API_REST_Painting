@@ -37,8 +37,10 @@ exports.getColorsFiltre = (req, res, next) => {
     colorQuery = Color.find({ 'gamme': gammeName, 'type': typeName });
   }else if(typeName != ""){
     colorQuery = Color.find({ 'type': typeName });
-  }else{
+  }else if(gammeName != ""){
     colorQuery = Color.find({ 'gamme': gammeName });
+  }else{
+    colorQuery = Color.find();
   }
 
   let fetchedColors;
@@ -65,9 +67,25 @@ exports.getColorsNom = (req, res, next) => {
 
   //Récupération du nom passé en paramètre
   const name = req.query.nom;
+  const gammeName = req.query.gamme;
+  const typeName = req.query.type;
 
   //Query
-  const colorQuery = Color.find({ 'name': { "$regex": name, "$options": "i" } });
+  var colorQuery;
+
+  if(gammeName != "" && typeName != ""){
+    colorQuery = Color.find(
+      { 'name': { "$regex": name, "$options": "i"}, 
+        'gamme': gammeName, 
+        'type': typeName }
+      );
+  }else if(typeName != ""){
+    colorQuery = Color.find({ 'name': { "$regex": name, "$options": "i"}, 'type': typeName });
+  }else if(gammeName != ""){
+    colorQuery = Color.find({ 'name': { "$regex": name, "$options": "i"}, 'gamme': gammeName });
+  }else{
+    colorQuery = Color.find({ 'name': { "$regex": name, "$options": "i" } });
+  }
 
   let fetchedColors;
 
