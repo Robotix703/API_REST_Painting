@@ -15,9 +15,6 @@ if (process.env.NODE_ENV === "production") {
     pwd = process.env.DB_DEV_PASS;
 }
 
-console.log("ENV", process.env.NODE_ENV);
-console.log("VARS", name, host, user, pwd);
-
 //Connexion à la BD
 mongoose.connect(
     //"mongodb://user:user@mongo/Painting"
