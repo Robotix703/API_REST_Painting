@@ -1,6 +1,6 @@
 const express = require('express');
 const bodyParser = require("body-parser");
-const mongoose = require('mongoose');
+const BDD = require('./BDD');
 const path = require('path')
 
 //Ajout des routes
@@ -11,17 +11,6 @@ const colorRoutes = require("./routes/color");
 
 //Création de l'application
 const app = express();
-
-//Connexion à la BD
-mongoose.connect(
-    //"mongodb://user:user@mongo/Painting"
-    "mongodb://user:user@172.18.0.2/Painting"
-    , { useNewUrlParser: true, useUnifiedTopology: true })
-.then(() => {
-    console.log("BDD Connectée");
-}).catch(() => {
-    console.log("Erreur de connexion");
-});
 
 //Initialisation de body-parser
 app.use(bodyParser.json());
