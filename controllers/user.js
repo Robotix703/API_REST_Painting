@@ -24,7 +24,7 @@ exports.createUser = (req, res, next) => {
       })
       .catch(err => {
         res.status(500).json({
-          message: "Mauvais couple identifiant / MDP"
+          message: err
         });
       });
   });
@@ -64,7 +64,7 @@ exports.userLogin = (req, res, next) => {
           email: fetchUser.email,
           userId: fetchUser._id
         },
-        'secret',
+        process.env.JWT,
         { expiresIn: "1h" }
       );
 

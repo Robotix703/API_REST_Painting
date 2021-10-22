@@ -8,6 +8,7 @@ const figurinesRoutes = require('./routes/figurines');
 const userRoutes = require("./routes/user");
 const paintRoutes = require("./routes/paint");
 const colorRoutes = require("./routes/color");
+const drawerRoutes = require("./routes/drawer");
 
 //Création de l'application
 const app = express();
@@ -33,17 +34,15 @@ app.use((req, res, next) => {
     next();
 });
 
-//Utilisation de la route Figurines
 app.use("/api/figurines", figurinesRoutes);
 
-//Utilisation de la route Posts
 app.use("/api/user", userRoutes);
 
-//Utilisation de la route Instructions
 app.use("/api/paint", paintRoutes);
 
-//Utilisation de la route Color
 app.use("/api/color", colorRoutes);
+
+app.use("/api/drawer", drawerRoutes);
 
 //Export de l'application
 module.exports = app;

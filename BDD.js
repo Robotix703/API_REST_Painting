@@ -21,7 +21,7 @@ mongoose.connect(
     "mongodb://" + user + ":" + pwd + "@" + host + "/" + name
     , { useNewUrlParser: true, useUnifiedTopology: true })
 .then(() => {
-    console.log("BDD Connectée");
+    console.log("BDD - Connectée");
 }).catch(() => {
-    console.log("Erreur de connexion");
+    console.log("BDD - Erreur de connexion");
 });
