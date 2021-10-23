@@ -60,7 +60,7 @@ exports.getDrawerByName = (req, res, next) => {
             return documents.length;
         })
         .then(count => {
-            res.status(200).json({ Colors: fetchedDrawers, maxDrawer: count });
+            res.status(200).json({ Drawers: fetchedDrawers, maxDrawer: count });
         })
         .catch(error => {
             res.status(500).json({
