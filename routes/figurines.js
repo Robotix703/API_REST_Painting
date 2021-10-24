@@ -11,7 +11,6 @@ const router = express.Router();
 
 //Gestion des écriture de posts
 router.post('', checkAuth, extractFile, FigurinesController.writeFigurine);
-
 //Gestion de la récupération des figurines
 router.get('/', FigurinesController.getFigurines);
 //Gestion de la récuération d'une figurine
