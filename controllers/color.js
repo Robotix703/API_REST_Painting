@@ -8,7 +8,10 @@ exports.writeColor = (req, res, next) => {
     name: req.body.name,
     gamme: req.body.gamme,
     type: req.body.type,
-    colorCode: req.body.colorCode
+    colorCode: req.body.colorCode,
+    drawerName: req.body.drawerName? req.body.drawerName : "",
+    positionX: req.body.positionX? req.body.positionX : 0,
+    positionY: req.body.positionY? req.body.positionY : 0
   });
 
   //Sauvegarde dans la BDD
@@ -19,7 +22,7 @@ exports.writeColor = (req, res, next) => {
     })
     .catch(error => {
       res.status(500).json({
-        message: "La création à échoué"
+        message: error
       })
     });
 }
@@ -90,6 +93,31 @@ exports.getColorsNom = (req, res, next) => {
   let fetchedColors;
 
   //Récupérations de données
+  colorQuery
+    .then(documents => {
+      fetchedColors = [...documents];
+      return documents.length;
+    })
+    .then(count => {
+      //Réponse
+      res.status(200).json({ Colors: fetchedColors, maxColors: count });
+    })
+    .catch(error => {
+      res.status(500).json({
+        message: "La récupération à échoué"
+      })
+    });
+};
+
+//Récupération des couleurs du même tiroir
+exports.getColorsFromDrawer = (req, res, next) => {
+
+  const drawerName = req.query.drawerName;
+
+  var colorQuery = Color.find({ 'drawerName': { "$regex": name, "$options": "i"}});
+
+  let fetchedColors;
+
   colorQuery
     .then(documents => {
       fetchedColors = [...documents];
