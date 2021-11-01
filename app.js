@@ -3,17 +3,14 @@ const bodyParser = require("body-parser");
 const BDD = require('./BDD');
 const path = require('path')
 
-//Ajout des routes
 const figurinesRoutes = require('./routes/figurines');
 const userRoutes = require("./routes/user");
 const paintRoutes = require("./routes/paint");
 const colorRoutes = require("./routes/color");
 const drawerRoutes = require("./routes/drawer");
 
-//Création de l'application
 const app = express();
 
-//Initialisation de body-parser
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
@@ -35,14 +32,9 @@ app.use((req, res, next) => {
 });
 
 app.use("/api/figurines", figurinesRoutes);
-
 app.use("/api/user", userRoutes);
-
 app.use("/api/paint", paintRoutes);
-
 app.use("/api/color", colorRoutes);
-
 app.use("/api/drawer", drawerRoutes);
 
-//Export de l'application
 module.exports = app;
