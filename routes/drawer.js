@@ -6,7 +6,6 @@ const DrawerControllers = require("../controllers/drawer");
 const router = express.Router();
 
 router.get('/', DrawerControllers.getDrawers);
-
 router.get('/nom', DrawerControllers.getDrawerByName);
 
 router.post('/', checkAuth, DrawerControllers.writeDrawer);

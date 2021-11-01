@@ -23,7 +23,7 @@ exports.getDrawerByType = (req, res, next) => {
     const typeName = req.query.type;
 
     var drawerQuery;
-    if (typeName != "") {
+    if (typeName) {
         drawerQuery = Drawer.find({ 'type': typeName });
     } else {
         drawerQuery = Drawer.find();
