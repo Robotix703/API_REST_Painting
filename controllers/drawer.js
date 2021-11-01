@@ -69,6 +69,27 @@ exports.getDrawerByName = (req, res, next) => {
         });
 };
 
+exports.getDrawerByType = (req, res, next) => {
+
+    var drawerQuery = Drawer.find({ 'type': req.query.type });
+
+    let fetchedDrawers;
+
+    drawerQuery
+        .then(documents => {
+            fetchedDrawers = [...documents];
+            return documents.length;
+        })
+        .then(count => {
+            res.status(200).json({ Drawers: fetchedDrawers, maxDrawer: count });
+        })
+        .catch(error => {
+            res.status(500).json({
+                message: error
+            })
+        });
+};
+
 exports.getDrawers = (req, res, next) => {
 
     let fetchedDrawers;

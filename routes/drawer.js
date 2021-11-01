@@ -7,6 +7,7 @@ const router = express.Router();
 
 router.get('/', DrawerControllers.getDrawers);
 router.get('/nom', DrawerControllers.getDrawerByName);
+router.get('/type', DrawerControllers.getDrawerByType);
 
 router.post('/', checkAuth, DrawerControllers.writeDrawer);
 
