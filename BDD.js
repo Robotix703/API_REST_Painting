@@ -15,16 +15,12 @@ if (process.env.NODE_ENV === "production") {
     pwd = process.env.DB_DEV_PASS;
 }
 
-console.log("ENV", process.env.NODE_ENV);
-console.log("VARS", name, host, user, pwd);
-
 //Connexion à la BD
 mongoose.connect(
-    //"mongodb://user:user@mongo/Painting"
     "mongodb://" + user + ":" + pwd + "@" + host + "/" + name
     , { useNewUrlParser: true, useUnifiedTopology: true })
 .then(() => {
-    console.log("BDD Connectée");
+    console.log("BDD - Connectée");
 }).catch(() => {
-    console.log("Erreur de connexion");
+    console.log("BDD - Erreur de connexion");
 });

@@ -20,14 +20,13 @@ exports.writeFigurine = (req, res, next) => {
     })
     .catch(error => {
       res.status(500).json({
-        message: "La création à échoué"
+        message: error
       })
     });
 };
 
 //Récupération des figuines
 exports.getFigurines = (req, res, next) => {
-
   //Récupération des éléments de pagination
   const pageSize = parseInt(req.query.pageSize);
   const currentPage = parseInt(req.query.currentPage);

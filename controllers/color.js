@@ -1,140 +1,126 @@
 const Color = require('./../models/color');
 
-//Ecriture d'une couleur
-exports.writeColor = (req, res, next) => {
+exports.writeColor = (req, res) => {
 
-  //Construction d'une couleur
   const color = new Color({
     name: req.body.name,
     gamme: req.body.gamme,
     type: req.body.type,
-    colorCode: req.body.colorCode
+    colorCode: req.body.colorCode,
+    drawerName: req.body.drawerName? req.body.drawerName : "",
+    positionX: req.body.positionX? req.body.positionX : 0,
+    positionY: req.body.positionY? req.body.positionY : 0
   });
 
-  //Sauvegarde dans la BDD
   color.save()
     .then(result => {
-      //Renvoi d'une réponse
       res.status(201).json({ id: result._id, color });
     })
     .catch(error => {
       res.status(500).json({
-        message: "La création à échoué"
+        message: error
       })
     });
 }
 
-//Récupération des couleurs avec filtres
-exports.getColorsFiltre = (req, res, next) => {
+exports.getColorsFiltre = (req, res) => {
 
-  //Récupération du nom passé en paramètre
   const gammeName = req.query.gamme;
   const typeName = req.query.type;
 
-  //Query
-  var colorQuery;
-  if(gammeName != "" && typeName != ""){
-    colorQuery = Color.find({ 'gamme': gammeName, 'type': typeName });
-  }else if(typeName != ""){
-    colorQuery = Color.find({ 'type': typeName });
-  }else if(gammeName != ""){
-    colorQuery = Color.find({ 'gamme': gammeName });
-  }else{
-    colorQuery = Color.find();
-  }
+  let colorQuery;
+  if(gammeName && typeName) colorQuery = Color.find({ 'gamme': gammeName, 'type': typeName });
+  else if(typeName)               colorQuery = Color.find({ 'type': typeName });
+  else if(gammeName)              colorQuery = Color.find({ 'gamme': gammeName });
+  else                                  colorQuery = Color.find();
+
 
   let fetchedColors;
 
-  //Récupérations de données
   colorQuery
     .then(documents => {
       fetchedColors = [...documents];
       return documents.length;
     })
     .then(count => {
-      //Réponse
       res.status(200).json({ Colors: fetchedColors, maxColors: count });
     })
     .catch(error => {
       res.status(500).json({
-        message: "La récupération à échoué"
+        message: error
       })
     });
 };
 
-//Récupération des couleurs via nom
-exports.getColorsNom = (req, res, next) => {
+exports.getColorByName = (req, res) => {
 
-  //Récupération du nom passé en paramètre
   const name = req.query.nom;
-  const gammeName = req.query.gamme;
-  const typeName = req.query.type;
 
-  //Query
-  var colorQuery;
-
-  if(gammeName != "" && typeName != ""){
-    colorQuery = Color.find(
-      { 'name': { "$regex": name, "$options": "i"}, 
-        'gamme': gammeName, 
-        'type': typeName }
-      );
-  }else if(typeName != ""){
-    colorQuery = Color.find({ 'name': { "$regex": name, "$options": "i"}, 'type': typeName });
-  }else if(gammeName != ""){
-    colorQuery = Color.find({ 'name': { "$regex": name, "$options": "i"}, 'gamme': gammeName });
-  }else{
-    colorQuery = Color.find({ 'name': { "$regex": name, "$options": "i" } });
-  }
+  let colorQuery = Color.find({ 'name': { "$regex": name, "$options": "i" } });
 
   let fetchedColors;
 
-  //Récupérations de données
   colorQuery
     .then(documents => {
       fetchedColors = [...documents];
       return documents.length;
     })
     .then(count => {
-      //Réponse
       res.status(200).json({ Colors: fetchedColors, maxColors: count });
     })
     .catch(error => {
       res.status(500).json({
-        message: "La récupération à échoué"
+        message: error
       })
     });
 };
 
-//Récupération des couleurs
-exports.getColors = (req, res, next) => {
+exports.getColorsFromDrawer = (req, res) => {
+
+  const drawerName = req.query.drawerName;
+
+  let colorQuery = Color.find({ 'drawerName': { "$regex": drawerName, "$options": "i"}});
 
   let fetchedColors;
 
-  //Récupération de tout les éléments
+  colorQuery
+    .then(documents => {
+      fetchedColors = [...documents];
+      return documents.length;
+    })
+    .then(count => {
+      res.status(200).json({ Colors: fetchedColors, maxColors: count });
+    })
+    .catch(error => {
+      res.status(500).json({
+        message: error
+      })
+    });
+};
+
+exports.getColors = (req, res) => {
+
+  let fetchedColors;
+
   const colorQuery = Color.find();
 
-  //Récupérations de données
   colorQuery
     .then(documents => {
       fetchedColors = [...documents];
       return documents.length;
     })
     .then(count => {
-      //Réponse
       res.status(200).json({ Colors: fetchedColors, maxColors: count });
     })
     .catch(error => {
       res.status(500).json({
-        message: "La récupération à échoué"
+        message: error
       })
     });
 };
 
-//Suppression d'une couleur
-exports.deleteColor = (req, res, next) => {
+exports.deleteColor = (req, res) => {
 
-  //Demande à la BDD
   Color.deleteOne({ _id: req.params.id })
     .then((result) => {
       if (result.n > 0) {
@@ -145,7 +131,7 @@ exports.deleteColor = (req, res, next) => {
     })
     .catch(error => {
       res.status(500).json({
-        message: "La suppression à échoué"
+        message: error
       })
     });
 };
