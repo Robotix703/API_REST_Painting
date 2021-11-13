@@ -23,6 +23,37 @@ exports.writeColor = (req, res) => {
     });
 }
 
+exports.updateColor = (req, res) => {
+
+  const color = new Color({
+    _id: req.params.id,
+    name: req.body.name,
+    gamme: req.body.gamme,
+    type: req.body.type,
+    colorCode: req.body.colorCode,
+    drawerName: req.body.drawerName,
+    positionX: req.body.positionX,
+    positionY: req.body.positionY
+  });
+
+  Color.updateOne({ _id: req.params.id }, color)
+    .then(result => {
+      if (result.n > 0) {
+        res.status(200).json(color);
+        return
+      } else {
+        res.status(401).json({ message: "Pas d'autorisation" });
+        return
+      }
+    })
+    .catch(error => {
+      res.status(500).json({
+        message: error
+      })
+      return
+    });
+}
+
 exports.getColorsFiltre = (req, res) => {
 
   const gammeName = req.query.gamme;

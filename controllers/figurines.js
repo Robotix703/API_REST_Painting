@@ -1,21 +1,19 @@
 const Figurine = require('./../models/figurine');
 
-//Enregistrement d'une figurine
-exports.writeFigurine = (req, res, next) => {
-  //URL du serveur
-  const url = req.protocol + '://' + req.get("host");
+const protocol = (process.env.NODE_ENV === "production") ? "https" : "http";
 
-  //Construction d'une figurine
+exports.writeFigurine = (req, res) => {
+
+  const url = protocol + '://' + req.get("host");
+
   const figurine = new Figurine({
     name: req.body.name,
     categorie: req.body.categorie,
     imagePath: url + "/images/" + req.file.filename
   });
 
-  //Sauvegarde dans la BDD
   figurine.save()
     .then(result => {
-      //Renvoi d'une réponse
       res.status(201).json({ id: result._id, figurine });
     })
     .catch(error => {
@@ -25,44 +23,37 @@ exports.writeFigurine = (req, res, next) => {
     });
 };
 
-//Récupération des figuines
-exports.getFigurines = (req, res, next) => {
-  //Récupération des éléments de pagination
+exports.getFigurines = (req, res) => {
+
   const pageSize = parseInt(req.query.pageSize);
   const currentPage = parseInt(req.query.currentPage);
 
   const figurineQuery = Figurine.find();
-
   let fetchedFigurines;
 
-  //Vérifie la présence des éléments de pagination
   if (pageSize && currentPage) {
-    //Ajout d'éléments dans la requête
     figurineQuery
       .skip(pageSize * (currentPage - 1))
       .limit(pageSize);
   }
 
-  //Récupérations de données
   figurineQuery
     .then(documents => {
       fetchedFigurines = documents;
       return Figurine.count();
     })
     .then(count => {
-      //Réponse
       res.status(200).json({ figurines: fetchedFigurines, maxFigurines: count });
     })
     .catch(error => {
       res.status(500).json({
-        message: "La récupération à échoué"
+        message: error
       })
     });
 };
 
-//Récupération d'une figurine
-exports.getFigurine = (req, res, next) => {
-  //Recherche d'un élément particulier
+exports.getFigurine = (req, res) => {
+
   Figurine.findById(req.params.id)
     .then(figurine => {
       if (figurine) {
@@ -78,14 +69,13 @@ exports.getFigurine = (req, res, next) => {
     });
 };
 
-//MAJ d'une figurine
-exports.updateFigurine = (req, res, next) => {
+exports.updateFigurine = (req, res) => {
 
   let imagePath = req.body.imagePath;
+
   //Vérification présence image
   if (req.file) {
-    //URL du serveur
-    const url = req.protocol + '://' + req.get("host");
+    const url = protocol + '://' + req.get("host");
     imagePath = url + "/images/" + req.file.filename
   }
 
@@ -94,9 +84,8 @@ exports.updateFigurine = (req, res, next) => {
     name: req.body.name,
     categorie: req.body.categorie,
     imagePath: imagePath
-  })
+  });
 
-  //MAJ d'un élément avec Mangoose
   Figurine.updateOne({ _id: req.params.id }, figurine)
     .then(result => {
       if (result.n > 0) {
@@ -107,15 +96,13 @@ exports.updateFigurine = (req, res, next) => {
     })
     .catch(error => {
       res.status(500).json({
-        message: "La Mise à jour à échoué"
+        message: error
       })
     });
 };
 
-//Suppression d'une figurine
 exports.deleteFigurine = (req, res, next) => {
 
-  //Demande à la BDD
   Figurine.deleteOne({ _id: req.params.id })
     .then((result) => {
       if (result.n > 0) {
@@ -126,7 +113,7 @@ exports.deleteFigurine = (req, res, next) => {
     })
     .catch(error => {
       res.status(500).json({
-        message: "La suppression à échoué"
+        message: error
       })
     });
 };
