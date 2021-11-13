@@ -1,36 +1,30 @@
 const Instruction = require('./../models/instruction');
 
-//Récupération des instructions avec figurine ID
-exports.getInstructions = (req, res, next) => {
+exports.getInstructions = (req, res) => {
 
-  //Récupération des éléments de pagination
   const figurineID = req.query.figurineID;
 
-  //Query
   const instructionQuery = Instruction.find({ 'figurineID': figurineID });
 
   let fetchedInstructions;
 
-  //Récupérations de données
   instructionQuery
     .then(documents => {
       fetchedInstructions = [...documents];
       return documents.length;
     })
     .then(count => {
-      //Réponse
       res.status(200).json({ Instructions: fetchedInstructions, maxInstructions: count });
     })
     .catch(error => {
       res.status(500).json({
-        message: "La récupération à échoué"
+        message: error
       })
     });
 };
 
-//Récupération d'une instruction
-exports.getInstruction = (req, res, next) => {
-  //Recherche d'un élément particulier
+exports.getInstruction = (req, res) => {
+
   Instruction.findById(req.params.id)
     .then(instruction => {
       if (instruction) {
@@ -41,13 +35,12 @@ exports.getInstruction = (req, res, next) => {
     })
     .catch(error => {
       res.status(500).json({
-        message: "La récupération à échoué"
+        message: error
       })
     });
 };
 
-//MAJ d'une instruction
-exports.updateInstruction = (req, res, next) => {
+exports.updateInstruction = (req, res) => {
 
   const instruction = new Instruction({
     _id: req.params.id,
@@ -58,7 +51,6 @@ exports.updateInstruction = (req, res, next) => {
     step: req.body.step
   });
 
-  //MAJ d'un élément avec Mangoose
   Instruction.updateOne({ _id: req.params.id }, instruction)
     .then(result => {
       if (result.n > 0) {
@@ -71,15 +63,14 @@ exports.updateInstruction = (req, res, next) => {
     })
     .catch(error => {
       res.status(500).json({
-        message: "La Mise à jour à échoué"
+        message: error
       })
       return
     });
 };
 
-exports.writeInstruction = (req, res, next) => {
+exports.writeInstruction = (req, res) => {
 
-  //Construction d'une instruction
   const instruction = new Instruction({
     name: req.body.name,
     content: req.body.content,
@@ -88,23 +79,19 @@ exports.writeInstruction = (req, res, next) => {
     step: req.body.step
   });
 
-  //Sauvegarde dans la BDD
   instruction.save()
     .then(result => {
-      //Renvoi d'une réponse
       res.status(201).json({ id: result._id, instruction });
     })
     .catch(error => {
       res.status(500).json({
-        message: "La création à échoué"
+        message: error
       })
     });
 }
 
-//Suppression d'une instruction
-exports.deleteInstruction = (req, res, next) => {
+exports.deleteInstruction = (req, res) => {
 
-  //Demande à la BDD
   Instruction.deleteOne({ _id: req.params.id })
     .then((result) => {
       if (result.n > 0) {
@@ -115,7 +102,7 @@ exports.deleteInstruction = (req, res, next) => {
     })
     .catch(error => {
       res.status(500).json({
-        message: "La suppression à échoué"
+        message: error
       })
     });
 };

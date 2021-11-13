@@ -11,6 +11,8 @@ router.get('/filtre', ColorControllers.getColorsFiltre);
 router.get('/nom', ColorControllers.getColorByName);
 router.get('/drawerName', ColorControllers.getColorsFromDrawer);
 
+router.put('/:id', ColorControllers.updateColor);
+
 router.post('/', checkAuth, ColorControllers.writeColor);
 
 router.delete("/:id", checkAuth, ColorControllers.deleteColor);
