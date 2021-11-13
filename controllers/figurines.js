@@ -1,8 +1,10 @@
 const Figurine = require('./../models/figurine');
 
+const protocol = (process.env.NODE_ENV === "production") ? "https" : "http";
+
 exports.writeFigurine = (req, res) => {
 
-  const url = req.protocol + '://' + req.get("host");
+  const url = protocol + '://' + req.get("host");
 
   const figurine = new Figurine({
     name: req.body.name,
@@ -73,7 +75,7 @@ exports.updateFigurine = (req, res) => {
 
   //Vérification présence image
   if (req.file) {
-    const url = req.protocol + '://' + req.get("host");
+    const url = protocol + '://' + req.get("host");
     imagePath = url + "/images/" + req.file.filename
   }
 
