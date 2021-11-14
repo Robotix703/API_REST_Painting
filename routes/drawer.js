@@ -9,7 +9,11 @@ router.get('/', DrawerControllers.getDrawers);
 router.get('/nom', DrawerControllers.getDrawerByName);
 router.get('/type', DrawerControllers.getDrawerByType);
 
+router.put('/:id', checkAuth, DrawerControllers.updateDrawer);
+
 router.post('/', checkAuth, DrawerControllers.writeDrawer);
+router.post('/takeSlot', checkAuth, DrawerControllers.takeSlot);
+router.post('/freeSlot', checkAuth, DrawerControllers.freeSlot);
 
 router.delete("/:id", checkAuth, DrawerControllers.deleteDrawer);
 
