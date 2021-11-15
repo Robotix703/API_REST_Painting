@@ -26,7 +26,7 @@ exports.updateDrawer = (req, res) => {
         _id: req.params.id,
         name: req.body.name,
         type: req.body.type,
-        emptySlot: req.body.emptySlot ? JSON.parse(req.body.emptySlot) : undefined,
+        emptySlot: req.body.emptySlot ? req.body.emptySlot : undefined,
         isFull: req.body.isFull ? req.body.isFull : undefined
       });
     
