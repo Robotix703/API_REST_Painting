@@ -89,7 +89,9 @@ exports.getColorsToBuy = (req, res) => {
 
   const toBuy = req.query.toBuy;
 
-  let colorQuery = Color.find({ 'toBuy': toBuy });
+  let colorQuery;
+  if(toBuy == "true") colorQuery = Color.find({ 'toBuy': toBuy });
+  else      colorQuery = Color.find();
 
   let fetchedColors;
 
