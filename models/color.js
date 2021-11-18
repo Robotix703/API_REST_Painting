@@ -7,7 +7,8 @@ const colorSchema = mongoose.Schema({
   colorCode: { type: String, required: true },
   drawerName: { type: String, required: true },
   positionX: { type: Number, required: true },
-  positionY: { type: Number, required: true }
+  positionY: { type: Number, required: true },
+  toBuy: { type: Boolean, required: false }
 });
 
 module.exports = mongoose.model('Color', colorSchema);

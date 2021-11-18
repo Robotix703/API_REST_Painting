@@ -18,7 +18,7 @@ exports.writeDrawer = (req, res) => {
                 message: error
             })
         });
-}
+};
 
 exports.updateDrawer = (req, res) => {
 
@@ -46,7 +46,7 @@ exports.updateDrawer = (req, res) => {
           })
           return
         });
-}
+};
 
 exports.takeSlot = (req, res) => {
 
@@ -99,7 +99,7 @@ exports.takeSlot = (req, res) => {
                 message: error
             })
         });
-}
+};
 
 exports.freeSlot = (req, res) => {
 
@@ -152,7 +152,7 @@ exports.freeSlot = (req, res) => {
                 message: error
             })
         });
-}
+};
 
 exports.getDrawerByType = (req, res) => {
 
@@ -231,6 +231,27 @@ exports.getDrawers = (req, res) => {
     let fetchedDrawers;
 
     const drawerQuery = Drawer.find();
+
+    drawerQuery
+        .then(documents => {
+            fetchedDrawers = [...documents];
+            return documents.length;
+        })
+        .then(count => {
+            res.status(200).json({ Drawers: fetchedDrawers, maxDrawers: count });
+        })
+        .catch(error => {
+            res.status(500).json({
+                message: error
+            })
+        });
+};
+
+exports.getDrawerNotFull = (req, res) => {
+
+    let fetchedDrawers;
+
+    const drawerQuery = Drawer.find({ 'isFull': false});
 
     drawerQuery
         .then(documents => {

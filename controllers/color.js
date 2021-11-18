@@ -9,7 +9,8 @@ exports.writeColor = (req, res) => {
     colorCode: req.body.colorCode,
     drawerName: req.body.drawerName? req.body.drawerName : "",
     positionX: req.body.positionX? req.body.positionX : 0,
-    positionY: req.body.positionY? req.body.positionY : 0
+    positionY: req.body.positionY? req.body.positionY : 0,
+    toBuy: req.body.toBuy
   });
 
   color.save()
@@ -33,7 +34,8 @@ exports.updateColor = (req, res) => {
     colorCode: req.body.colorCode,
     drawerName: req.body.drawerName,
     positionX: req.body.positionX,
-    positionY: req.body.positionY
+    positionY: req.body.positionY,
+    toBuy: req.body.toBuy
   });
 
   Color.updateOne({ _id: req.params.id }, color)
@@ -61,10 +63,35 @@ exports.getColorsFiltre = (req, res) => {
 
   let colorQuery;
   if(gammeName && typeName) colorQuery = Color.find({ 'gamme': gammeName, 'type': typeName });
-  else if(typeName)               colorQuery = Color.find({ 'type': typeName });
-  else if(gammeName)              colorQuery = Color.find({ 'gamme': gammeName });
-  else                                  colorQuery = Color.find();
+  else if(typeName)         colorQuery = Color.find({ 'type': typeName });
+  else if(gammeName)        colorQuery = Color.find({ 'gamme': gammeName });
+  else                      colorQuery = Color.find();
 
+
+  let fetchedColors;
+
+  colorQuery
+    .then(documents => {
+      fetchedColors = [...documents];
+      return documents.length;
+    })
+    .then(count => {
+      res.status(200).json({ Colors: fetchedColors, maxColors: count });
+    })
+    .catch(error => {
+      res.status(500).json({
+        message: error
+      })
+    });
+};
+
+exports.getColorsToBuy = (req, res) => {
+
+  const toBuy = req.query.toBuy;
+
+  let colorQuery;
+  if(toBuy == "true") colorQuery = Color.find({ 'toBuy': toBuy });
+  else      colorQuery = Color.find();
 
   let fetchedColors;
 
