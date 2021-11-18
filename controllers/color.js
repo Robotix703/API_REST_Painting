@@ -85,6 +85,29 @@ exports.getColorsFiltre = (req, res) => {
     });
 };
 
+exports.getColorsToBuy = (req, res) => {
+
+  const toBuy = req.query.toBuy;
+
+  let colorQuery = Color.find({ 'toBuy': toBuy });
+
+  let fetchedColors;
+
+  colorQuery
+    .then(documents => {
+      fetchedColors = [...documents];
+      return documents.length;
+    })
+    .then(count => {
+      res.status(200).json({ Colors: fetchedColors, maxColors: count });
+    })
+    .catch(error => {
+      res.status(500).json({
+        message: error
+      })
+    });
+};
+
 exports.getColorByName = (req, res) => {
 
   const name = req.query.nom;
