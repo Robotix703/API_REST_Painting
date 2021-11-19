@@ -60,6 +60,7 @@ exports.getColorsFiltre = (req, res) => {
 
   const gammeName = req.query.gamme;
   const typeName = req.query.type;
+  const limit = req.query.limit;
 
   let colorQuery;
   if(gammeName && typeName) colorQuery = Color.find({ 'gamme': gammeName, 'type': typeName });
@@ -73,6 +74,7 @@ exports.getColorsFiltre = (req, res) => {
   colorQuery
     .then(documents => {
       fetchedColors = [...documents];
+      if(limit) fetchedColors = fetchedColors.slice(0, limit);
       return documents.length;
     })
     .then(count => {
@@ -158,6 +160,8 @@ exports.getColorsFromDrawer = (req, res) => {
 
 exports.getColors = (req, res) => {
 
+  const limit = req.query.limit;
+
   let fetchedColors;
 
   const colorQuery = Color.find();
@@ -165,6 +169,7 @@ exports.getColors = (req, res) => {
   colorQuery
     .then(documents => {
       fetchedColors = [...documents];
+      if(limit) fetchedColors = fetchedColors.slice(0, limit);
       return documents.length;
     })
     .then(count => {
