@@ -6,7 +6,7 @@ exports.writeDrawer = (req, res) => {
         name: req.body.name,
         type: req.body.type,
         emptySlot: req.body.emptySlot ? req.body.emptySlot : undefined,
-        isFull: req.body.isFull ? req.body.isFull : undefined
+        isFull: false
     });
 
     drawer.save()
@@ -53,7 +53,7 @@ exports.takeSlot = (req, res) => {
     const slot = req.body.slot;
     const drawerName = req.body.name;
 
-    var drawerQuery = Drawer.find({ 'name': { "$regex": drawerName, "$options": "i" } });
+    var drawerQuery = Drawer.find({ 'name': drawerName });
 
     let fetchedDrawers;
 
@@ -64,9 +64,13 @@ exports.takeSlot = (req, res) => {
         })
         .then(count => {
 
-            if(count != 1) res.status(500).json({
-                message: "Tiroir non trouvé de façon unique"
-            })
+            if(count != 1)
+            {
+                res.status(500).json({
+                    message: "Tiroir non trouvé de façon unique"
+                })
+                return
+            }
 
             fetchedDrawers[0].emptySlot = fetchedDrawers[0].emptySlot.filter(e => e != slot);
             let updatedDrawer = new Drawer({
@@ -78,21 +82,21 @@ exports.takeSlot = (req, res) => {
             });
 
             Drawer.updateOne({ _id: fetchedDrawers[0]._id }, updatedDrawer)
-            .then(result => {
-            if (result.n > 0) {
-                res.status(200).json(updatedDrawer);
-                return
-            } else {
-                res.status(401).json({ message: "Tiroir non trouvé" });
-                return
-            }
-            })
-            .catch(error => {
-            res.status(500).json({
-                message: error
-            })
-            return
-            });
+                .then(result => {
+                    if (result.n > 0) {
+                        res.status(200).json(updatedDrawer);
+                        return
+                    } else {
+                        res.status(401).json({ message: "Tiroir non trouvé" });
+                        return
+                    }
+                })
+                .catch(error => {
+                    res.status(500).json({
+                        message: error
+                    })
+                    return
+                });
         })
         .catch(error => {
             res.status(500).json({
@@ -106,7 +110,7 @@ exports.freeSlot = (req, res) => {
     const slot = req.body.slot;
     const drawerName = req.body.name;
 
-    var drawerQuery = Drawer.find({ 'name': { "$regex": drawerName, "$options": "i" } });
+    var drawerQuery = Drawer.find({ 'name': drawerName });
 
     let fetchedDrawers;
 

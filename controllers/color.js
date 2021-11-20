@@ -139,7 +139,7 @@ exports.getColorsFromDrawer = (req, res) => {
 
   const drawerName = req.query.drawerName;
 
-  let colorQuery = Color.find({ 'drawerName': { "$regex": drawerName, "$options": "i"}});
+  let colorQuery = Color.find({ 'drawerName': drawerName });
 
   let fetchedColors;
 
