@@ -169,7 +169,7 @@ exports.getColors = (req, res) => {
   colorQuery
     .then(documents => {
       fetchedColors = [...documents];
-      if(limit) fetchedColors = fetchedColors.slice(0, limit);
+      if(limit && limit != -1) fetchedColors = fetchedColors.slice(0, limit);
       return documents.length;
     })
     .then(count => {
