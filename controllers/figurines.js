@@ -101,7 +101,7 @@ exports.updateFigurine = (req, res) => {
     });
 };
 
-exports.deleteFigurine = (req, res, next) => {
+exports.deleteFigurine = (req, res) => {
 
   Figurine.deleteOne({ _id: req.params.id })
     .then((result) => {
@@ -117,3 +117,32 @@ exports.deleteFigurine = (req, res, next) => {
       })
     });
 };
+
+exports.getCategoryList = (req, res) => {
+
+  Figurine.find().distinct('categorie', function(error, categories) {
+    res.status(200).send(categories);
+  })
+  .catch(error => {
+    res.status(500).json({
+      message: error
+    })
+  });
+}
+
+exports.getCategoryFigurines = (req, res) => {
+
+  Figurine.find({"categorie": req.query.category})
+  .then(figurine => {
+    if (figurine) {
+      res.status(200).json(figurine);
+    } else {
+      res.status(404).json({ message: "Mauvais ID" });
+    }
+  })
+  .catch(error => {
+    res.status(500).json({
+      message: error
+    })
+  });
+}

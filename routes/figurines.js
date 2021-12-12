@@ -7,8 +7,10 @@ const FigurinesController = require("../controllers/figurines");
 
 const router = express.Router();
 
-router.get('/', FigurinesController.getFigurines);
+router.get('/categoryList', FigurinesController.getCategoryList);
+router.get('/category', FigurinesController.getCategoryFigurines);
 router.get('/:id', FigurinesController.getFigurine);
+router.get('/', FigurinesController.getFigurines);
 
 router.put("/:id", checkAuth, extractFile, FigurinesController.updateFigurine);
 
