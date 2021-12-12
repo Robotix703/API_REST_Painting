@@ -9,12 +9,15 @@ const router = express.Router();
 
 router.get('/categoryList', FigurinesController.getCategoryList);
 router.get('/category', FigurinesController.getCategoryFigurines);
+router.get('/favoris', FigurinesController.getFavorisForUser);
 router.get('/:id', FigurinesController.getFigurine);
 router.get('/', FigurinesController.getFigurines);
 
 router.put("/:id", checkAuth, extractFile, FigurinesController.updateFigurine);
 
+router.post('/favoris', checkAuth, FigurinesController.updateFavoris);
 router.post('', checkAuth, extractFile, FigurinesController.writeFigurine);
+
 
 router.delete("/:id", checkAuth, FigurinesController.deleteFigurine);
 

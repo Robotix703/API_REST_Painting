@@ -9,7 +9,8 @@ exports.writeFigurine = (req, res) => {
   const figurine = new Figurine({
     name: req.body.name,
     categorie: req.body.categorie,
-    imagePath: url + "/images/" + req.file.filename
+    imagePath: url + "/images/" + req.file.filename,
+    painted: false
   });
 
   figurine.save()
@@ -79,12 +80,14 @@ exports.updateFigurine = (req, res) => {
     imagePath = url + "/images/" + req.file.filename
   }
 
-  const figurine = new Figurine({
+  let figurine = new Figurine({
     _id: req.params.id,
     name: req.body.name,
     categorie: req.body.categorie,
     imagePath: imagePath
   });
+  if(req.body.favoris) figurine.favoris = req.body.favoris;
+  if(req.body.painted) figurine.painted = req.body.painted;
 
   Figurine.updateOne({ _id: req.params.id }, figurine)
     .then(result => {
@@ -146,3 +149,41 @@ exports.getCategoryFigurines = (req, res) => {
     })
   });
 }
+
+exports.getFavorisForUser = (req, res) => {
+
+  Figurine.find({"favoris": req.query.userID})
+  .then(figurine => {
+    if (figurine) {
+      res.status(200).json(figurine);
+    } else {
+      res.status(404).json({ message: "Mauvais ID" });
+    }
+  })
+  .catch(error => {
+    res.status(500).json({
+      message: error
+    })
+  });
+}
+
+exports.updateFavoris = (req, res) => {
+
+  const figurineID = req.body.figurineID;
+  const userID = req.body.userID;
+  const setToFavoris = req.body.setToFavoris;
+
+  Figurine.findOne({ _id: figurineID }, function (err, doc){
+    if(setToFavoris && !doc.favoris.includes(userID)) doc.favoris.push(userID);
+    else doc.favoris = doc.favoris.filter(e => e.favoris == userID);
+
+    doc.save();
+    res.status(200).json(doc);
+  })
+  .catch(error => {
+    res.status(500).json({
+      message: error
+    })
+    return
+  });;
+};
