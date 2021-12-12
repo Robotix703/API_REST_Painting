@@ -15,6 +15,7 @@ router.get('/', FigurinesController.getFigurines);
 
 router.put("/:id", checkAuth, extractFile, FigurinesController.updateFigurine);
 
+router.post('/updatePainted', checkAuth, FigurinesController.updatePainted);
 router.post('/favoris', checkAuth, FigurinesController.updateFavoris);
 router.post('', checkAuth, extractFile, FigurinesController.writeFigurine);
 

@@ -187,3 +187,21 @@ exports.updateFavoris = (req, res) => {
     return
   });;
 };
+
+exports.updatePainted = (req, res) => {
+
+  const figurineID = req.body.figurineID;
+  const isPainted = req.body.isPainted;
+
+  Figurine.findOne({ _id: figurineID }, function (err, doc){
+    doc.painted = isPainted;
+    doc.save();
+    res.status(200).json(doc);
+  })
+  .catch(error => {
+    res.status(500).json({
+      message: error
+    })
+    return
+  });;
+};
