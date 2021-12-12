@@ -26,7 +26,7 @@ exports.writeFigurine = (req, res) => {
 exports.getFigurines = (req, res) => {
 
   const pageSize = parseInt(req.query.pageSize);
-  const currentPage = parseInt(req.query.currentPage);
+  const currentPage = parseInt(req.query.currentPage) + 1;
 
   const figurineQuery = Figurine.find();
   let fetchedFigurines;

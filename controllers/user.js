@@ -63,7 +63,7 @@ exports.userLogin = (req, res, next) => {
           userId: fetchUser._id
         },
         process.env.JWT,
-        { expiresIn: "1h" }
+        { expiresIn: "12h" }
       );
 
       res.status(200).json({
