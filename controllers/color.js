@@ -60,21 +60,23 @@ exports.getColorsFiltre = (req, res) => {
 
   const gammeName = req.query.gamme;
   const typeName = req.query.type;
+  const toBuy = req.query.toBuy;
+
   const limit = req.query.limit;
 
-  let colorQuery;
-  if(gammeName && typeName) colorQuery = Color.find({ 'gamme': gammeName, 'type': typeName });
-  else if(typeName)         colorQuery = Color.find({ 'type': typeName });
-  else if(gammeName)        colorQuery = Color.find({ 'gamme': gammeName });
-  else                      colorQuery = Color.find();
+  let filters = {};
+  if(gammeName)         filters.gamme = gammeName;
+  if(typeName)          filters.type = typeName;
+  if(toBuy == "true")   filters.toBuy = toBuy;
 
+  let colorQuery = Color.find(filters);
 
   let fetchedColors;
 
   colorQuery
     .then(documents => {
       fetchedColors = [...documents];
-      if(limit) fetchedColors = fetchedColors.slice(0, limit);
+      if(limit && limit != -1) fetchedColors = fetchedColors.slice(0, limit);
       return documents.length;
     })
     .then(count => {
