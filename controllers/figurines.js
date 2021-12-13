@@ -205,3 +205,32 @@ exports.updatePainted = (req, res) => {
     return
   });;
 };
+
+exports.getFiltreredFigurines = (req, res) => {
+  const userID = req.query.userID;
+  const isDone = req.query.isDone;
+  const category = req.query.category;
+
+  let filters = {};
+  if(userID)              filters.favoris = userID;
+  if(isDone != undefined) filters.painted = (isDone == "true");
+  if(category)            filters.categorie = category;
+
+  let figurineQuery = Figurine.find(filters);
+
+  let fetchedFigurines;
+
+  figurineQuery
+    .then(documents => {
+      fetchedFigurines = [...documents];
+      return documents.length;
+    })
+    .then(count => {
+      res.status(200).json({ Figurines: fetchedFigurines, maxFigurines: count });
+    })
+    .catch(error => {
+      res.status(500).json({
+        message: error
+      })
+    });
+}
