@@ -10,10 +10,10 @@ router.get('/', ColorControllers.getColors);
 router.get('/filtre', ColorControllers.getColorsFiltre);
 router.get('/nom', ColorControllers.getColorByName);
 router.get('/drawerName', ColorControllers.getColorsFromDrawer);
-router.get('/toBuy', ColorControllers.getColorsToBuy);
 
 router.put('/:id', checkAuth, ColorControllers.updateColor);
 
+router.post('/toBuy', checkAuth, ColorControllers.updateToBuy);
 router.post('/', checkAuth, ColorControllers.writeColor);
 
 router.delete("/:id", checkAuth, ColorControllers.deleteColor);

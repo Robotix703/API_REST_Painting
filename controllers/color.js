@@ -56,6 +56,24 @@ exports.updateColor = (req, res) => {
     });
 }
 
+exports.updateToBuy = (req, res) => {
+
+  const id = req.body.id;
+  const toBuy = req.body.toBuy;
+
+  Color.findOne({ _id: id }, function (err, doc){
+    doc.toBuy = toBuy;
+    doc.save();
+    res.status(200).json(doc);
+  })
+  .catch(error => {
+    res.status(500).json({
+      message: error
+    })
+    return
+  });;
+}
+
 exports.getColorsFiltre = (req, res) => {
 
   const gammeName = req.query.gamme;
@@ -77,31 +95,6 @@ exports.getColorsFiltre = (req, res) => {
     .then(documents => {
       fetchedColors = [...documents];
       if(limit && limit != -1) fetchedColors = fetchedColors.slice(0, limit);
-      return documents.length;
-    })
-    .then(count => {
-      res.status(200).json({ Colors: fetchedColors, maxColors: count });
-    })
-    .catch(error => {
-      res.status(500).json({
-        message: error
-      })
-    });
-};
-
-exports.getColorsToBuy = (req, res) => {
-
-  const toBuy = req.query.toBuy;
-
-  let colorQuery;
-  if(toBuy == "true") colorQuery = Color.find({ 'toBuy': toBuy });
-  else      colorQuery = Color.find();
-
-  let fetchedColors;
-
-  colorQuery
-    .then(documents => {
-      fetchedColors = [...documents];
       return documents.length;
     })
     .then(count => {
