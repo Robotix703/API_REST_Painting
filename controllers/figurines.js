@@ -174,11 +174,24 @@ exports.updateFavoris = (req, res) => {
   const setToFavoris = req.body.setToFavoris;
 
   Figurine.findOne({ _id: figurineID }, function (err, doc){
-    if(setToFavoris && !doc.favoris.includes(userID)) doc.favoris.push(userID);
-    else doc.favoris = doc.favoris.filter(e => e.favoris == userID);
 
-    doc.save();
-    res.status(200).json(doc);
+    if(doc){
+      if(doc.favoris){
+        if(setToFavoris && !doc.favoris.includes(userID)){
+          doc.favoris.push(userID);
+        }
+        else doc.favoris = doc.favoris.filter(e => e.favoris == userID);
+      }
+      else{
+        doc.favoris.push("");
+      }
+  
+      doc.save();
+      res.status(200).json(doc);
+    }
+    else res.status(500).json({
+      message: "No figurine found"
+    })
   })
   .catch(error => {
     res.status(500).json({
@@ -211,12 +224,21 @@ exports.getFiltreredFigurines = (req, res) => {
   const isDone = req.query.isDone;
   const category = req.query.category;
 
+  const pageSize = parseInt(req.query.pageSize);
+  const currentPage = parseInt(req.query.currentPage) + 1;
+
   let filters = {};
   if(userID)              filters.favoris = userID;
   if(isDone != undefined) filters.painted = (isDone == "true");
   if(category)            filters.categorie = category;
 
   let figurineQuery = Figurine.find(filters);
+
+  if (pageSize && currentPage) {
+    figurineQuery
+      .skip(pageSize * (currentPage - 1))
+      .limit(pageSize);
+  }
 
   let fetchedFigurines;
 
