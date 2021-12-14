@@ -245,7 +245,7 @@ exports.getFiltreredFigurines = (req, res) => {
   figurineQuery
     .then(documents => {
       fetchedFigurines = [...documents];
-      return documents.length;
+      return Figurine.count();
     })
     .then(count => {
       res.status(200).json({ Figurines: fetchedFigurines, maxFigurines: count });
