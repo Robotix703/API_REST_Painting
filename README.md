@@ -5,6 +5,7 @@ docker exec -it <mongoContainer> mongo
 Voir sur internet pour plus d'informations
 
 ## Connexion à la BDD
+use admin
 db.auth("root", "<MDP>")
 
 ## Création d'un utilisateur Superutilisateur
